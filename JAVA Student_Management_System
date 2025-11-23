@@ -1,0 +1,126 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+class Student {
+    private int id;
+    private String name;
+    private String course;
+    private double marks;
+
+    public Student(int id, String name, String course, double marks) {
+        this.id = id;
+        this.name = name;
+        this.course = course;
+        this.marks = marks;
+    }
+
+    public int getId() { return id; }
+    public String getName() { return name; }
+    public String getCourse() { return course; }
+    public double getMarks() { return marks; }
+
+    public void setName(String name) { this.name = name; }
+    public void setCourse(String course) { this.course = course; }
+    public void setMarks(double marks) { this.marks = marks; }
+
+    @Override
+    public String toString() {
+        return id + " | " + name + " | " + course + " | " + marks;
+    }
+}
+
+public class StudentManagementSystem {
+
+    static Scanner sc = new Scanner(System.in);
+    static ArrayList<Student> students = new ArrayList<>();
+
+    public static void main(String[] args) {
+
+        while (true) {
+            System.out.println("\n===== Student Management System =====");
+            System.out.println("1. Add Student");
+            System.out.println("2. View All Students");
+            System.out.println("3. Update Student");
+            System.out.println("4. Delete Student");
+            System.out.println("5. Exit");
+            System.out.print("Enter choice: ");
+            int choice = sc.nextInt();
+            sc.nextLine();
+
+            switch (choice) {
+                case 1 -> addStudent();
+                case 2 -> viewStudents();
+                case 3 -> updateStudent();
+                case 4 -> deleteStudent();
+                case 5 -> System.exit(0);
+                default -> System.out.println("Invalid Choice!");
+            }
+        }
+    }
+
+    public static void addStudent() {
+        System.out.println("Enter ID:");
+        int id = sc.nextInt();
+        sc.nextLine();
+
+        System.out.println("Enter Name:");
+        String name = sc.nextLine();
+
+        System.out.println("Enter Course:");
+        String course = sc.nextLine();
+
+        System.out.println("Enter Marks:");
+        double marks = sc.nextDouble();
+
+        students.add(new Student(id, name, course, marks));
+        System.out.println("Student Added Successfully!");
+    }
+
+    public static void viewStudents() {
+        if (students.isEmpty()) {
+            System.out.println("No student records available.");
+            return;
+        }
+
+        System.out.println("\nID | Name | Course | Marks");
+        for (Student s : students) {
+            System.out.println(s);
+        }
+    }
+
+    public static void updateStudent() {
+        System.out.println("Enter Student ID to update:");
+        int id = sc.nextInt();
+        sc.nextLine();
+
+        for (Student s : students) {
+            if (s.getId() == id) {
+                System.out.println("Enter new name:");
+                s.setName(sc.nextLine());
+
+                System.out.println("Enter new course:");
+                s.setCourse(sc.nextLine());
+
+                System.out.println("Enter new marks:");
+                s.setMarks(sc.nextDouble());
+
+                System.out.println("Updated Successfully!");
+                return;
+            }
+        }
+        System.out.println("Student Not Found!");
+    }
+
+    public static void deleteStudent() {
+        System.out.println("Enter Student ID to delete:");
+        int id = sc.nextInt();
+
+        boolean removed = students.removeIf(s -> s.getId() == id);
+
+        if (removed) {
+            System.out.println("Deleted Successfully!");
+        } else {
+            System.out.println("Student Not Found!");
+        }
+    }
+}
